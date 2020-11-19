@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Person from './Person/Person';
-import classes from './App.css';
+import classes from './App.module.css';
+//import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 
 class App extends Component {
   state  = {
@@ -21,6 +22,7 @@ class App extends Component {
     };
 
     person.name = event.target.value;
+
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
@@ -28,8 +30,6 @@ class App extends Component {
   }
 
   deletePersonHandler = (personIndex) => {
-    //const persons = this.state.persons.slice();
-
     const persons = [...this.state.persons];
     persons.splice(personIndex, 1);
     this.setState({persons: persons});
@@ -41,30 +41,24 @@ class App extends Component {
   }
   
   render() {
-    const style = {
-      backgroundColor: 'green',
-      color: 'white',
-      font: 'inherit',
-      border: '1px solid blue',
-      padding: '10px',
-      cursor:'pointer',
-    };
-
     let persons = null;
+
+    let btnClass = [classes.Button];
 
     if (this.state.showPersons) {
       persons = (
         <div>
           {this.state.persons.map((person, index) => {
             return <Person 
-            click={() => this.deletePersonHandler(index)}
-            name={person.name} 
-            age={person.age}
-            key={person.id} 
-            changed={(event) => this.nameChangedHandler(event,person.id)} />
+              key={person.id}
+              click={() => this.deletePersonHandler(index)}
+              name={person.name} 
+              age={person.age}
+              changed={(event) => this.nameChangedHandler(event,person.id)} />
           })}
         </div> 
       );
+      btnClass.push(classes.Red);
     }
 
     const myClasses = [];
@@ -79,10 +73,11 @@ class App extends Component {
     return (
       <div className={classes.App}>
         <h1>Hi, I am a React App!</h1>
+
         <p className={myClasses.join(' ')}> This is really working!</p>
 
-        <button className={classes.button}
-          alt={this.state.showPersons}
+        <button 
+          className={btnClass.join(' ')}
           onClick= {this.togglePersonsHandler}>
             Switch Name
         </button> 
@@ -90,7 +85,6 @@ class App extends Component {
         {persons}
       </div>
     );
-    //return React.createElement('div', {className: 'App'}, React.createElement('h1', null, 'Does this Work Now?'));
   }
 }
 export default App;

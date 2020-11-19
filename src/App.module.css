@@ -24,4 +24,16 @@
   color: black;
 }
 
+.Button.Red {
+  background-color: red;
+}
+
+.Button.Red:hover {
+  background-color: salmon;
+}
+
+.Button.Bold {
+  
+}
+
 
